@@ -101,9 +101,14 @@ app.get("/canteen1", (req, res) => {
 app.post("/canteen", (req, res) => {
   const { items, totalPrice } = req.body;
   const values = items
-    .map((item) => `('${item.item}', ${item.price})`)
+    .map(
+      (item) =>
+        `('Canteen 1', '${JSON.stringify([
+          { item: item.item, quantity: item.quantity,},
+        ])}')`
+    )
     .join(", ");
-  const sql = `INSERT INTO canteen (canteen_number, orders) VALUES ('Canteen 1', '${values}')`;
+  const sql = `INSERT INTO canteen (canteen_number, orders) VALUES ${values};`;
   connection.query(sql, (err, result) => {
     if (err) {
       console.error(err);
