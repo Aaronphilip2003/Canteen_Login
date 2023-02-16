@@ -98,10 +98,40 @@ app.get("/canteen1", (req, res) => {
   });
 });
 
+app.get("/canteen2", (req, res) => {
+  connection.query("SELECT item , price FROM canteen2", (err, results) => {
+    if (err) throw err;
+
+    // console.log(
+    //   "Item:",
+    //   results.map((result) => result.item)
+    // );
+
+    res.send(
+      results.map((result) => ({ item: result.item, price: result.price }))
+    );
+  });
+});
+
+app.get("/canteen3", (req, res) => {
+  connection.query("SELECT item , price FROM canteen3", (err, results) => {
+    if (err) throw err;
+
+    // console.log(
+    //   "Item:",
+    //   results.map((result) => result.item)
+    // );
+
+    res.send(
+      results.map((result) => ({ item: result.item, price: result.price }))
+    );
+  });
+});
+
 app.post("/canteen", (req, res) => {
   const { items, totalPrice } = req.body;
   const values = items.map(
-    (item) => `('Canteen 1', '${item.item}', 1, ${item.price})`
+    (item) => `('${item.canteen_number}', '${item.item}', 1, ${item.price})`
   );
   const sql = `INSERT INTO canteen (canteen_number, item, quantity, price) VALUES ${values.join(
     ","
