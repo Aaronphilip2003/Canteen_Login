@@ -147,6 +147,19 @@ app.post("/canteen", (req, res) => {
   });
 });
 
+app.get("/admin1", (req, res) => {
+  connection.query(
+    `SELECT * from canteen where canteen_number="Canteen 1"`,
+    (err, results) => {
+      if (err) throw err;
+
+      res.send(
+        results.map((result) => ({ item: result.item, price: result.price }))
+      );
+    }
+  );
+});
+
 app.listen(8080, () => {
   console.log("Server listening on port 8080");
 });
