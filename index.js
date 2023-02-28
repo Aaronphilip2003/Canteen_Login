@@ -160,50 +160,30 @@ app.get("/admin1", (req, res) => {
   );
 });
 
-app.post("/admin1/delete", (req, res) => {
-  const indices = req.body.indices;
-  const query = `DELETE FROM canteen1 WHERE index IN (${indices.join(",")})`;
-  connection.query(query, (err, results, fields) => {
-    if (err) {
-      console.error("Error deleting items from canteen1 table: ", err);
-      res.sendStatus(500);
-      return;
+app.get("/admin2", (req, res) => {
+  connection.query(
+    `SELECT * from canteen where canteen_number="Canteen 2"`,
+    (err, results) => {
+      if (err) throw err;
+
+      res.send(
+        results.map((result) => ({ item: result.item, price: result.price }))
+      );
     }
-    console.log(
-      `Deleted items with indices ${indices.join(",")} from canteen1 table.`
-    );
-    res.sendStatus(200);
-  });
+  );
 });
 
-app.delete("/admin1/:index", (req, res) => {
-  const index = req.params.index;
-  const query = `DELETE FROM canteen1 WHERE index = ${index}`;
-  connection.query(query, (err, results, fields) => {
-    if (err) {
-      console.error("Error deleting item from canteen1 table: ", err);
-      res.sendStatus(500);
-      return;
-    }
-    console.log(`Deleted item with index ${index} from canteen1 table.`);
-    res.sendStatus(200);
-  });
-});
+app.get("/admin3", (req, res) => {
+  connection.query(
+    `SELECT * from canteen where canteen_number="Canteen 3"`,
+    (err, results) => {
+      if (err) throw err;
 
-app.post("/admin2/delete", (req, res) => {
-  const indices = req.body.indices;
-  const query = `DELETE FROM canteen2 WHERE index IN (${indices.join(",")})`;
-  connection.query(query, (err, results, fields) => {
-    if (err) {
-      console.error("Error deleting items from canteen2 table: ", err);
-      res.sendStatus(500);
-      return;
+      res.send(
+        results.map((result) => ({ item: result.item, price: result.price }))
+      );
     }
-    console.log(
-      `Deleted items with indices ${indices.join(",")} from canteen2 table.`
-    );
-    res.sendStatus(200);
-  });
+  );
 });
 
 app.listen(8080, () => {
